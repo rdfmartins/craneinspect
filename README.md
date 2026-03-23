@@ -42,4 +42,4 @@ Este projeto encontra-se em fase de **Inicialização de Infraestrutura (MVP)**.
 - [ ] Módulo Terraform para Armazenamento (S3).
 
 ---
-*Mantido e mantido por: Rodolfo & Augustus (AI Assistant)*
+*Rodolfo & Augustus*
