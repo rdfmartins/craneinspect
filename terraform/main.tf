@@ -16,3 +16,10 @@ module "ec2" {
   subnet_id     = module.vpc.public_subnet_ids[0]
   instance_type = "t3.medium"
 }
+
+module "s3" {
+  source = "./modules/s3"
+
+  project_name = var.project_name
+  environment  = "dev"
+}

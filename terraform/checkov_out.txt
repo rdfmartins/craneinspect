@@ -1,0 +1,215 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.510 
+
+terraform scan results:
+
+Passed checks: 21, Failed checks: 1, Skipped checks: 10
+
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	PASSED for resource: module.ec2.aws_security_group.ec2_sg
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31
+Check: CKV_AWS_25: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389"
+	PASSED for resource: module.ec2.aws_security_group.ec2_sg
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	PASSED for resource: module.ec2.aws_security_group.ec2_sg
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
+	PASSED for resource: module.ec2.aws_iam_role.ssm_role
+	File: /modules/ec2/main.tf:52-67
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: module.ec2.aws_iam_role.ssm_role
+	File: /modules/ec2/main.tf:52-67
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: module.ec2.aws_iam_role.ssm_role
+	File: /modules/ec2/main.tf:52-67
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: module.ec2.aws_iam_role_policy_attachment.ssm_core_attachment
+	File: /modules/ec2/main.tf:69-72
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
+	PASSED for resource: module.ec2.aws_instance.app
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-31
+Check: CKV_AWS_46: "Ensure no hard-coded secrets exist in EC2 user data"
+	PASSED for resource: module.ec2.aws_instance.app
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-1
+Check: CKV_AWS_8: "Ensure all data stored in the Launch configuration or instance Elastic Blocks Store is securely encrypted"
+	PASSED for resource: module.ec2.aws_instance.app
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-13
+Check: CKV_AWS_386: "Reduce potential for WhoAMI cloud image name confusion attack"
+	PASSED for resource: module.ec2.aws_ami.ubuntu
+	File: /modules/ec2/main.tf:1-9
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-supply-chain-policies/bc-aws-386
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	PASSED for resource: module.vpc.aws_subnet.private[0]
+	File: /modules/vpc/main.tf:41-51
+	Calling File: /main.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	PASSED for resource: module.vpc.aws_subnet.private[1]
+	File: /modules/vpc/main.tf:41-51
+	Calling File: /main.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and secret key exists in provider"
+	PASSED for resource: aws.default
+	File: /providers.tf:12-24
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5
+Check: CKV2_AWS_35: "AWS NAT Gateways should be utilized for the default route"
+	PASSED for resource: module.vpc.aws_route_table.public
+	File: /modules/vpc/main.tf:53-64
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-nat-gateways-are-utilized-for-the-default-route
+Check: CKV2_AWS_35: "AWS NAT Gateways should be utilized for the default route"
+	PASSED for resource: module.vpc.aws_route_table.private
+	File: /modules/vpc/main.tf:72-78
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-nat-gateways-are-utilized-for-the-default-route
+Check: CKV2_AWS_44: "Ensure AWS route table with VPC peering does not contain routes overly permissive to all traffic"
+	PASSED for resource: module.vpc.aws_route_table.public
+	File: /modules/vpc/main.tf:53-64
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-route-table-with-vpc-peering-does-not-contain-routes-overly-permissive-to-all-traffic
+Check: CKV2_AWS_44: "Ensure AWS route table with VPC peering does not contain routes overly permissive to all traffic"
+	PASSED for resource: module.vpc.aws_route_table.private
+	File: /modules/vpc/main.tf:72-78
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-route-table-with-vpc-peering-does-not-contain-routes-overly-permissive-to-all-traffic
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: module.ec2.aws_iam_role.ssm_role
+	File: /modules/ec2/main.tf:52-67
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: module.ec2.aws_iam_role_policy_attachment.ssm_core_attachment
+	File: /modules/ec2/main.tf:69-72
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+	PASSED for resource: module.ec2.aws_security_group.ec2_sg
+	File: /modules/ec2/main.tf:11-50
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: module.ec2.aws_security_group.ec2_sg
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+
+		11 | resource "aws_security_group" "ec2_sg" {
+		12 |   name        = "${var.project_name}-ec2-sg"
+		13 |   description = "Security Group App sem SSH exposto (Modo Arquiteto)"
+		14 |   vpc_id      = var.vpc_id
+		15 | 
+		16 |   # Ingresso bloqueado para SSH
+		17 |   # Liberado apenas as portas Web, já que não usamos Load Balancer.
+		18 | 
+		19 |   ingress {
+		20 |     description = "HTTP Traffic (FinOps MVP)"
+		21 |     from_port   = 80
+		22 |     to_port     = 80
+		23 |     protocol    = "tcp"
+		24 |     cidr_blocks = ["0.0.0.0/0"]
+		25 |     # checkov:skip=CKV_AWS_260: Necessário pois a EC2 está exposta no IP diretamente para clientes
+		26 |     # checkov:skip=CKV_AWS_24:  A porta 80 ficará aberta
+		27 |   }
+		28 | 
+		29 |   ingress {
+		30 |     description = "HTTPS Traffic (FinOps MVP)"
+		31 |     from_port   = 443
+		32 |     to_port     = 443
+		33 |     protocol    = "tcp"
+		34 |     cidr_blocks = ["0.0.0.0/0"]
+		35 |     # checkov:skip=CKV_AWS_260: Tráfego HTTPS Web App
+		36 |   }
+		37 | 
+		38 |   egress {
+		39 |     description = "Egress total para internet (AWS SSM & Docker repo)"
+		40 |     from_port   = 0
+		41 |     to_port     = 0
+		42 |     protocol    = "-1"
+		43 |     cidr_blocks = ["0.0.0.0/0"]
+		44 |     # checkov:skip=CKV_AWS_381: Permite download de libs e pacotes apt-get (Checkov prefere regras fechadas)
+		45 |   }
+		46 | 
+		47 |   tags = {
+		48 |     Name = "${var.project_name}-ec2-sg"
+		49 |   }
+		50 | }
+
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	SKIPPED for resource: module.ec2.aws_security_group.ec2_sg
+	Suppress comment:  Necessário pois a EC2 está exposta no IP diretamente para clientes
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	SKIPPED for resource: module.ec2.aws_security_group.ec2_sg
+	Suppress comment:   A porta 80 ficará aberta
+	File: /modules/ec2/main.tf:11-50
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+Check: CKV_AWS_135: "Ensure that EC2 is EBS optimized"
+	SKIPPED for resource: module.ec2.aws_instance.app
+	Suppress comment:  EC2 EBS não obrigatório para EBS-Optimized (não-requerido no tipo de instância).
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized
+Check: CKV_AWS_88: "EC2 instance should not have public IP."
+	SKIPPED for resource: module.ec2.aws_instance.app
+	Suppress comment:  IP Público utilizado intencionalmente por decisão arquitetural (Não há ALB/NAT).
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-12
+Check: CKV_AWS_126: "Ensure that detailed monitoring is enabled for EC2 instances"
+	SKIPPED for resource: module.ec2.aws_instance.app
+	Suppress comment:  Detailed monitoring disabled for FinOps cost reduction
+	File: /modules/ec2/main.tf:79-118
+	Calling File: /main.tf:11-18
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	SKIPPED for resource: module.vpc.aws_subnet.public[0]
+	Suppress comment:  This is a public subnet by design for the MVP public EC2 without ALB.
+	File: /modules/vpc/main.tf:27-39
+	Calling File: /main.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	SKIPPED for resource: module.vpc.aws_subnet.public[1]
+	Suppress comment:  This is a public subnet by design for the MVP public EC2 without ALB.
+	File: /modules/vpc/main.tf:27-39
+	Calling File: /main.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	SKIPPED for resource: module.vpc.aws_vpc.this
+	Suppress comment:  Default SG handled explicitly (checkov might trip, but we create it below).
+	File: /modules/vpc/main.tf:1-11
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4
+Check: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	SKIPPED for resource: module.vpc.aws_vpc.this
+	Suppress comment:  VPC Flow Logs are disabled for FinOps cost reduction during MVP.
+	File: /modules/vpc/main.tf:1-11
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging
+Check: CKV2_AWS_41: "Ensure an IAM role is attached to EC2 instance"
+	SKIPPED for resource: module.ec2.aws_instance.app
+	Suppress comment:  IAM Role está anexada ao Profile, checkov falso positivo.
+	File: /modules/ec2/main.tf:79-118
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance
+
