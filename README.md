@@ -40,13 +40,15 @@ Atualmente, as inspeções manuais sofrem com morosidade estrutural, riscos de p
 
 ---
 
-### 🔍 Situação Atual (O Espelho da Realidade)
+### 🔍 Situação Atual
 Este projeto encontra-se em fase de **Inicialização de Infraestrutura (MVP)**.
 - [x] Definição de Skill de Infra-Robustez.
 - [x] Estrutura Inicial do Repositório Git.
 - [x] Configuração de Ferramental de Linting (TFLint/Checkov).
-- [ ] Módulo Terraform para Networking (VPC).
-- [ ] Módulo Terraform para Armazenamento (S3).
+- [x] Módulo Terraform para Networking (VPC).
+- [x] Módulo Terraform para Armazenamento (S3).
+- [x] Módulo Terraform para Computação (EC2).
+- [ ] Módulo Terraform para Persistência (RDS). 
 
 ---
 *Rodolfo & Augustus*
