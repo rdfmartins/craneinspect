@@ -1,14 +1,15 @@
 #!/bin/bash
 echo "🚀 Iniciando Bootstrapping da Instância CraneInspect (FinOps MVP)"
 
-# Atualizar pacotes do SO
-apt-get update -y
-apt-get upgrade -y
+# Assegurar instalações desassistidas
+export DEBIAN_FRONTEND=noninteractive
 
-# Instalar AWS SSM Agent (Gerenciamento de Instância) e utilitários
-apt-get install -y ca-certificates curl gnupg lsb-release amazon-ssm-agent unzip
-systemctl enable amazon-ssm-agent
-systemctl start amazon-ssm-agent
+# Atualizações do SO
+apt-get update -y
+apt-get install -y ca-certificates curl gnupg lsb-release unzip
+
+# Instalar AWS SSM Agent (Gerenciamento de Instância)
+apt-get install -y amazon-ssm-agent
 
 # Instalar Docker & Docker-Compose (Protocolo FinOps - ADR-003)
 mkdir -m 0755 -p /etc/apt/keyrings
@@ -25,9 +26,14 @@ systemctl start docker
 # Preparar o usuário
 usermod -aG docker ubuntu
 
-# Instalar AWS CLI v2 para facilitar downloads de buckets
+# Iniciar e habilitar o SSM Agent
+systemctl enable amazon-ssm-agent
+systemctl start amazon-ssm-agent
+
+# Instalar AWS CLI v2 isolado em ambiente /tmp para downloads de buckets
+cd /tmp
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
+unzip -q awscliv2.zip
+sudo ./aws/install --update
 
 echo "✅ Bootstrapping concluído com sucesso."

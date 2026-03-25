@@ -8,7 +8,11 @@ O **CraneInspect** é uma plataforma moderna projetada para transformar o fluxo 
 ---
 
 ### ⚠️ O Cenário Atual (The Pain)
-Atualmente, as inspeções manuais sofrem com## 🛠️ Tecnologias e Infraestrutura
+Atualmente, as inspeções manuais sofrem com morosidade estrutural, riscos de perda de dados e falta de uma trilha de auditoria clara. O tempo de resposta entre a detecção de uma anormalidade técnica e a sua formalização em relatório pode comprometer a segurança operacional e a eficiência de custos.
+
+---
+
+## 🛠️ Tecnologias e Infraestrutura
 **Base Arquitetural ('O Espelho da Realidade')**: O projeto adota uma abordagem minimalista de orquestração para focar em FinOps e blindagem, abolindo K8s ou ALBs no seu MVP de nicho.
 
 ### Cloud & SecOps (Infra as Code - Terraform)

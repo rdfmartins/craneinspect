@@ -50,8 +50,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "photos_lifecycle" {
     id     = "archive-noncurrent-versions"
     status = "Enabled"
 
-    filter {}
-
     # Move versões antigas de fotos (substituídas) para camada de armazenamento mais barata apos 30 dias
     noncurrent_version_transition {
       noncurrent_days = 30
@@ -68,9 +66,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "photos_lifecycle" {
     # checkov:skip=CKV2_AWS_61: Checkov doesn't always recognize this nested block properly
     id     = "abort-incomplete-multipart-upload"
     status = "Enabled"
-
-    filter {}
-
     abort_incomplete_multipart_upload {
       days_after_initiation = 7
     }
