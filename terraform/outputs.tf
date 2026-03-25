@@ -12,3 +12,13 @@ output "photos_bucket_name" {
   description = "Nome do bucket S3 de fotos criado"
   value       = module.s3.bucket_id
 }
+
+output "db_endpoint" {
+  description = "Endereço de acesso ao PostgreSQL para a aplicacao Backend"
+  value       = module.rds.db_endpoint
+}
+
+output "db_name" {
+  description = "Nome do banco da aplicacao Backend"
+  value       = module.rds.db_name
+}
