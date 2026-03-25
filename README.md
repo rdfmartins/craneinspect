@@ -8,12 +8,15 @@ O **CraneInspect** é uma plataforma moderna projetada para transformar o fluxo 
 ---
 
 ### ⚠️ O Cenário Atual (The Pain)
-Atualmente, as inspeções manuais sofrem com morosidade estrutural, riscos de perda de dados e falta de uma trilha de auditoria clara. O tempo de resposta entre a detecção de uma anormalidade técnica e a sua formalização em relatório pode comprometer a segurança operacional e a eficiência de custos.
+Atualmente, as inspeções manuais sofrem com## 🛠️ Tecnologias e Infraestrutura
+**Base Arquitetural ('O Espelho da Realidade')**: O projeto adota uma abordagem minimalista de orquestração para focar em FinOps e blindagem, abolindo K8s ou ALBs no seu MVP de nicho.
 
----
-
-### 🏛️ Arquitetura e Tech Stack
-A solução foi arquitetada sob os pilares da **Robustez, FinOps e Security-by-Design**, utilizando tecnologias de ponta em infraestrutura AWS.
+### Cloud & SecOps (Infra as Code - Terraform)
+*   Computação: EC2 (t3.micro Spot/On-Demand Free Tier limit-compliant). Acesso **exclusivamente** via AWS SSM Session Manager.
+*   Containerização: Docker e Docker-Compose nativos na Instância, garantindo imutabilidade e zero-lock-in.
+*   Armazenamento de Assets: AWS S3. Bloqueio total de acesso público (Block Public Access) – Exposição rigorosamente limitada por **Presigned-URLs**.
+*   Persistência Relacional: AWS RDS PostgreSQL (db.t3.micro). Isolado em **Subnets Privadas** (sem IP público), acessível matematicamente apenas pela porta `5432` através do Security Group da própria EC2 (Defesa Profunda).
+*   Governança: `Checkov` e `TFLint` integrados, assegurando que nenhum recurso suba sem compliance com os pilares da tríade de robustez., FinOps e Security-by-Design**, utilizando tecnologias de ponta em infraestrutura AWS.
 
 #### **Infraestrutura como Código (IaC)**
 *   **Terraform (v1.14.7):** Provisionamento escalável e reprodutível. Toda a infraestrutura é documentada em código, eliminando intervenções manuais (*Anti-ClickOps*).
