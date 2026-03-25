@@ -14,7 +14,7 @@ module "ec2" {
   project_name  = var.project_name
   vpc_id        = module.vpc.vpc_id
   subnet_id     = module.vpc.public_subnet_ids[0]
-  instance_type = "t3.medium"
+  instance_type = "t3.micro"
 }
 
 module "s3" {

@@ -108,13 +108,14 @@ resource "aws_instance" "app" {
     # checkov:skip=CKV_AWS_163: KMS default encryption ensures EBS is encrypted
   }
 
-  # Configuração de FinOps (Instância Spot)
-  instance_market_options {
-    market_type = "spot"
-    spot_options {
-      # Definimos max_price se precisarmos, mas vazio usa o On-Demand cap.
-    }
-  }
+  # Configuração de FinOps (Instância Spot) - Comentado para uso estrito do Free Tier (On-Demand)
+  # instance_market_options {
+  #  market_type = "spot"
+  #  spot_options {
+  #    # Definimos max_price se precisarmos, mas vazio usa o On-Demand cap.
+  #  }
+  # }
+
 
   tags = {
     Name = "${var.project_name}-ec2-app"
