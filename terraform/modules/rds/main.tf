@@ -8,6 +8,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 resource "aws_security_group" "rds_sg" {
+  # checkov:skip=CKV_AWS_382: Egress temporariamente aberto no SG, porém fisicamente bloqueado pela ausência de NAT Gateway na Private Subnet (Defesa Profunda).
   name        = "${var.project_name}-rds-sg"
   description = "Permite trafego apenas da EC2 do CraneInspect no PostgreSQL"
   vpc_id      = var.vpc_id
@@ -47,6 +48,7 @@ resource "aws_db_instance" "postgres" {
   # checkov:skip=CKV2_AWS_30: Query Logging disabled to reduce CloudWatch costs (FinOps)
   # checkov:skip=CKV2_AWS_60: Copy tags to snapshot not needed since snapshots are disabled
   # checkov:skip=CKV_AWS_161: IAM authentication disabled for MVP simplicity
+  # checkov:skip=CKV_AWS_353: Performance Insights disabled to keep db.t3.micro footprint and costs to a minimum (FinOps)
 
   identifier        = "${var.project_name}-db-instance"
   engine            = "postgres"

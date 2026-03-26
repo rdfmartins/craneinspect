@@ -48,7 +48,7 @@ Este projeto encontra-se em fase de **Inicialização de Infraestrutura (MVP)**.
 - [x] Módulo Terraform para Networking (VPC).
 - [x] Módulo Terraform para Armazenamento (S3).
 - [x] Módulo Terraform para Computação (EC2).
-- [ ] Módulo Terraform para Persistência (RDS). 
+- [x] Módulo Terraform para Persistência (RDS). 
 
 ---
 *Rodolfo & Augustus*

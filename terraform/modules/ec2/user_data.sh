@@ -32,8 +32,10 @@ systemctl start amazon-ssm-agent
 
 # Instalar AWS CLI v2 isolado em ambiente /tmp para downloads de buckets
 cd /tmp
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+curl -sL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip -q awscliv2.zip
-sudo ./aws/install --update
+sudo ./aws/install
+ln -sf /usr/local/bin/aws /usr/bin/aws
+rm -rf awscliv2.zip aws /usr/local/aws-cli/v2/current/dist/aws_completer
 
 echo "✅ Bootstrapping concluído com sucesso."
