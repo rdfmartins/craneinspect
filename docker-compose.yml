@@ -16,9 +16,16 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:-cranepassword}
       - DB_NAME=${DB_NAME:-craneinspect_db}
       - DB_PORT=5432
+      # Credenciais AWS — Em produção, resolvidas pela IAM Role da EC2 (sem hardcode)
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - PRESIGNED_URL_EXPIRATION=${PRESIGNED_URL_EXPIRATION:-3600}
     depends_on:
       db:
         condition: service_healthy
+
 
   db:
     image: postgres:15-alpine

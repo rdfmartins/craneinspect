@@ -3,16 +3,22 @@ from datetime import datetime
 from typing import List, Optional
 from models import InspectionStatus
 
+
 # ----------------- FOTOS -----------------
+class PhotoCreate(BaseModel):
+    """Payload interno usado após o upload para registrar a foto no banco."""
+    description: Optional[str] = None
+
 class PhotoBase(BaseModel):
     s3_object_key: str
     description: Optional[str] = None
 
 class PhotoResponse(PhotoBase):
     id: int
+    inspection_id: int
     created_at: datetime
-    # No FastAPI, injetaremos as URLs assinadas diretamente nas respostas (Zero Exposição)
-    presigned_url: Optional[str] = None 
+    # URL assinada injetada on-demand pelo endpoint — NUNCA armazenada no banco (ADR-004)
+    presigned_url: Optional[str] = None
 
     class Config:
         from_attributes = True
