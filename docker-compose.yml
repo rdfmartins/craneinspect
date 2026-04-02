@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: craneinspect_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DB_HOST=db
+      - DB_USER=${DB_USER:-craneadmin}
+      - DB_PASSWORD=${DB_PASSWORD:-cranepassword}
+      - DB_NAME=${DB_NAME:-craneinspect_db}
+      - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:15-alpine
+    container_name: craneinspect_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER:-craneadmin}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-cranepassword}
+      - POSTGRES_DB=${DB_NAME:-craneinspect_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-craneadmin} -d ${DB_NAME:-craneinspect_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
