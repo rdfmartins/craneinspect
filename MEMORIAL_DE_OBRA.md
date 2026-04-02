@@ -98,12 +98,33 @@ Este documento serve como o **Plano de Execução e Registro Arquitetural** do p
 - [x] API REST: `POST /inspections`, `GET /inspections`, `GET /inspections/{id}`.
 - [x] `s3_service.py`: Service Layer para upload privado, Presigned URL (TTL 1h) e delete de objetos S3.
 - [x] API REST: `POST /inspections/{id}/photos` (multipart + validação MIME) e `GET /photos/{id}/url`.
-- [x] `frontend/index.html`: Interface Zero-Build (HTML5/CSS Vanilla/JS puro) com criação de vistorias, listagem e upload de evidências fotográficas.
-- [ ] `terraform apply`: Provisionamento do bucket S3 real para fechar o ciclo de upload (pendente).
+- [x] `frontend/index.html`: Interface Zero-Build (**jQuery 3.7 + Bootstrap 5 via CDN**) com criação de vistorias, listagem paginada e upload de evidências fotográficas.
+- [x] Fix: Hash SRI inválido do Bootstrap JS removido (bloqueava carregamento da lista).
+- [ ] **`terraform apply`**: Provisionamento do bucket S3 real — **PRÓXIMO PASSO**.
+
 
 ---
 
-## 💰 FinOps Tracker
+## 🎯 Próxima Sessão — Ponto de Retomada
+
+**Sessão encerrada em:** 02/04/2026 às 15:44
+
+**O que fazer ao retomar:**
+1. Autenticar na AWS: `aws sso login` (ou `aws configure` se usar chaves de acesso)
+2. Verificar se os containers estão no ar: `docker compose ps`
+   - Se não estiverem: `docker compose up -d`
+3. Navegar para o módulo S3: `cd terraform/`
+4. Conferir o plano antes de aplicar: `terraform plan`
+5. Provisionar o bucket: `terraform apply`
+6. Configurar no `.env` local: `S3_BUCKET_NAME=<nome-do-bucket-gerado>`
+7. Testar o upload real em `http://localhost:8080`
+
+**Estado dos containers na pausa:**
+- `craneinspect_backend` → ✅ Online (porta 8000)
+- `craneinspect_db`      → ✅ Healthy (PostgreSQL 15)
+- `craneinspect_frontend`→ ✅ Online (porta 8080, Nginx)
+
+
 *Estimativa de custos para o MVP:*
 - **RDS (PogreSQL t3.micro):** ~$13.00/mês (Free Tier se elegível).
 - **EC2 (t3.medium Spot):** ~$0.015/hora (~$10.80/mês se 24/7).
