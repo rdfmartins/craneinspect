@@ -119,7 +119,10 @@ Este documento serve como o **Plano de Execução e Registro Arquitetural** do p
 6. Configurar no `.env` local: `S3_BUCKET_NAME=<nome-do-bucket-gerado>`
 7. Testar o upload real em `http://localhost:8080`
 
-**Estado dos containers na pausa:**
+**Pré-requisito de Frontend (Próxima iteração):**
+- Ao evoluir a UI, usar `Projetos_Autoresearch_AWS.md` como **referência de identidade temática e terminologia** ("The Pain", FinOps, métricas de custo/performance). A linguagem e os padrões visuais do frontend devem refletir o vocabulário desse documento.
+
+
 - `craneinspect_backend` → ✅ Online (porta 8000)
 - `craneinspect_db`      → ✅ Healthy (PostgreSQL 15)
 - `craneinspect_frontend`→ ✅ Online (porta 8080, Nginx)
