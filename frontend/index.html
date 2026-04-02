@@ -5,424 +5,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CraneInspect — Sistema de Inspeção de Equipamentos</title>
   <meta name="description" content="Plataforma de gestão digital de inspeções técnicas para gruas e equipamentos de grande porte." />
+
+  <!-- =============================================
+       ZERO-BUILD STACK (ADR-000)
+       PROIBIDO: npm, yarn, webpack, vite, react.
+       PERMITIDO: CDN único para jQuery e Bootstrap.
+       ============================================= -->
+
+  <!-- Bootstrap 5 CSS via CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
     /* =============================================
-       DESIGN SYSTEM — CRANEINSPECT ZERO-BUILD UI
+       DESIGN SYSTEM CUSTOMIZADO — SOBRE O BOOTSTRAP
+       Tema: Dark Industrial / CraneInspect
        ============================================= */
     :root {
-      --bg-base:       #0a0f1e;
-      --bg-surface:    rgba(255,255,255,0.04);
-      --bg-card:       rgba(255,255,255,0.065);
-      --border:        rgba(255,255,255,0.10);
-      --border-focus:  rgba(99,179,237,0.55);
-      --accent:        #4f9cf9;
-      --accent-glow:   rgba(79,156,249,0.20);
-      --accent-hover:  #3b82f6;
-      --success:       #34d399;
-      --warning:       #fbbf24;
-      --danger:        #f87171;
-      --text-primary:  #e2e8f0;
-      --text-secondary:#94a3b8;
-      --text-muted:    #475569;
-      --radius-sm:     8px;
-      --radius-md:     14px;
-      --radius-lg:     22px;
-      --transition:    all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      --ci-dark:       #0a0f1e;
+      --ci-surface:    #111827;
+      --ci-card:       #1a2235;
+      --ci-border:     rgba(255,255,255,0.09);
+      --ci-accent:     #4f9cf9;
+      --ci-accent-dim: rgba(79,156,249,0.15);
+      --ci-success:    #34d399;
+      --ci-warning:    #fbbf24;
+      --ci-danger:     #f87171;
+      --ci-text:       #e2e8f0;
+      --ci-muted:      #64748b;
+      --ci-radius:     0.75rem;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-base);
-      color: var(--text-primary);
+      background-color: var(--ci-dark);
+      color: var(--ci-text);
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* -- Gradient mesh background -- */
+    /* Mesh gradient de fundo */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(79,156,249,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 85% 80%, rgba(139,92,246,0.10) 0%, transparent 55%);
-      pointer-events: none;
-      z-index: 0;
+        radial-gradient(ellipse 80% 50% at 15% 10%, rgba(79,156,249,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 85%, rgba(139,92,246,0.08) 0%, transparent 55%);
     }
 
-    /* ---- LAYOUT ---- */
-    .app-wrapper { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
-
-    /* ---- HEADER ---- */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 40px;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(20px);
-      background: rgba(10,15,30,0.75);
-      position: sticky; top: 0; z-index: 50;
-    }
-    .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-icon {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, #4f9cf9, #8b5cf6);
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .logo-text { font-size: 18px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
-    .logo-sub { font-size: 11px; color: var(--text-secondary); font-weight: 400; }
-    .header-badge {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 12px; color: var(--success);
-      background: rgba(52,211,153,0.10);
-      border: 1px solid rgba(52,211,153,0.25);
-      border-radius: 999px; padding: 5px 14px;
-    }
-    .badge-dot { width: 7px; height: 7px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
-
-    /* ---- MAIN CONTENT ---- */
-    main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 40px 24px; width: 100%; }
-
-    /* ---- SECTION HEADER ---- */
-    .section-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 28px;
-    }
-    .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
-    .section-title span { color: var(--accent); }
+    /* ---- NAVBAR ---- */
+    .navbar { background: rgba(10,15,30,0.85) !important; backdrop-filter: blur(20px); border-bottom: 1px solid var(--ci-border); }
+    .navbar-brand { font-weight: 700; font-size: 1.1rem; color: var(--ci-text) !important; letter-spacing: -0.3px; }
+    .navbar-brand .brand-icon { background: linear-gradient(135deg, #4f9cf9, #8b5cf6); border-radius: 8px; padding: 4px 8px; margin-right: 8px; }
+    .api-badge { font-size: 0.72rem; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.08); color: var(--ci-success); }
+    .api-badge .dot { display: inline-block; width: 7px; height: 7px; background: var(--ci-success); border-radius: 50%; margin-right: 5px; animation: pulse 2s infinite; }
 
     /* ---- CARDS ---- */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      backdrop-filter: blur(16px);
-      transition: var(--transition);
-    }
-    .card:hover { border-color: rgba(255,255,255,0.16); }
+    .ci-card { background: var(--ci-card); border: 1px solid var(--ci-border); border-radius: var(--ci-radius); }
+    .ci-card .card-header { background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--ci-border); font-weight: 600; font-size: 0.85rem; color: var(--ci-muted); text-transform: uppercase; letter-spacing: 0.6px; padding: 14px 20px; }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    /* ---- FORM CONTROLS (override Bootstrap para tema dark) ---- */
+    .form-control, .form-select {
+      background-color: rgba(255,255,255,0.04) !important;
+      border: 1px solid var(--ci-border) !important;
+      color: var(--ci-text) !important;
+      border-radius: 8px !important;
+      font-size: 0.875rem;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--ci-accent) !important;
+      box-shadow: 0 0 0 3px rgba(79,156,249,0.18) !important;
+    }
+    .form-control::placeholder { color: var(--ci-muted) !important; }
+    .form-label { font-size: 0.75rem; font-weight: 600; color: var(--ci-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-select option { background: #1e293b; }
 
-    /* ---- FORM ELEMENTS ---- */
-    .form-group { margin-bottom: 18px; }
-    label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+    /* ---- BOTÕES ---- */
+    .btn-ci-primary {
+      background: linear-gradient(135deg, #4f9cf9, #6366f1);
+      border: none; color: #fff; font-weight: 600; font-size: 0.875rem;
+      border-radius: 8px; padding: 10px 22px;
+      box-shadow: 0 4px 14px rgba(79,156,249,0.28);
+      transition: all 0.2s ease;
+    }
+    .btn-ci-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(79,156,249,0.42); color: #fff; }
+    .btn-ci-primary:disabled { opacity: 0.55; transform: none; }
+    .btn-ci-outline { background: transparent; border: 1px solid var(--ci-border); color: var(--ci-muted); border-radius: 8px; font-size: 0.875rem; padding: 7px 16px; transition: all 0.2s; }
+    .btn-ci-outline:hover { border-color: var(--ci-accent); color: var(--ci-accent); }
 
-    input[type="text"], textarea, select {
-      width: 100%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 11px 15px;
-      color: var(--text-primary);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: var(--transition);
+    /* ---- LISTA DE INSPEÇÕES ---- */
+    .inspection-item {
+      background: var(--ci-card); border: 1px solid var(--ci-border);
+      border-radius: 10px; padding: 16px 20px;
+      cursor: pointer; transition: all 0.2s ease;
+      margin-bottom: 10px;
     }
-    input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
-    textarea { resize: vertical; min-height: 80px; }
-    select option { background: #1e293b; }
+    .inspection-item:hover { border-color: rgba(79,156,249,0.45); background: rgba(79,156,249,0.06); transform: translateX(4px); }
+    .inspection-tag { font-weight: 700; font-size: 0.95rem; }
+    .inspection-tag .id-badge { color: var(--ci-accent); }
+    .inspection-meta { font-size: 0.76rem; color: var(--ci-muted); margin-top: 4px; }
 
-    /* ---- BUTTONS ---- */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 22px; border: none; border-radius: var(--radius-sm);
-      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: var(--transition); text-decoration: none;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #6366f1);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(79,156,249,0.30);
-    }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(79,156,249,0.45); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    /* ---- STATUS BADGES ---- */
+    .badge-PENDING  { background: rgba(251,191,36,0.12);  color: var(--ci-warning); border: 1px solid rgba(251,191,36,0.28);  font-size: 0.68rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; }
+    .badge-APPROVED { background: rgba(52,211,153,0.12);  color: var(--ci-success); border: 1px solid rgba(52,211,153,0.28);  font-size: 0.68rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; }
+    .badge-REJECTED { background: rgba(248,113,113,0.12); color: var(--ci-danger);  border: 1px solid rgba(248,113,113,0.28); font-size: 0.68rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; }
 
-    .btn-ghost {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-    .btn-ghost:hover { border-color: var(--border-focus); color: var(--text-primary); }
-
-    /* ---- INSPECTION LIST ---- */
-    .inspection-list { display: flex; flex-direction: column; gap: 14px; }
-
-    .inspection-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .inspection-card:hover {
-      border-color: var(--border-focus);
-      background: rgba(79,156,249,0.07);
-      transform: translateX(4px);
-    }
-    .inspection-info { display: flex; flex-direction: column; gap: 5px; }
-    .inspection-tag {
-      font-size: 16px; font-weight: 700; letter-spacing: -0.2px;
-      color: var(--text-primary);
-    }
-    .inspection-tag strong { color: var(--accent); }
-    .inspection-meta { font-size: 12px; color: var(--text-secondary); display: flex; gap: 14px; }
-    .inspection-meta svg { vertical-align: middle; }
-
-    .status-badge {
-      padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .status-PENDING  { background: rgba(251,191,36,0.12); color: var(--warning); border: 1px solid rgba(251,191,36,0.25); }
-    .status-APPROVED { background: rgba(52,211,153,0.12); color: var(--success); border: 1px solid rgba(52,211,153,0.25); }
-    .status-REJECTED { background: rgba(248,113,113,0.12); color: var(--danger);  border: 1px solid rgba(248,113,113,0.25); }
-
-    /* ---- EMPTY STATE ---- */
-    .empty-state {
-      text-align: center; padding: 56px 24px;
-      color: var(--text-muted);
-    }
-    .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
-    .empty-state p { font-size: 14px; }
-
-    /* ---- MODAL ---- */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 100;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: var(--transition);
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal {
-      background: #111827;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      width: 100%; max-width: 560px;
-      transform: translateY(18px) scale(0.98);
-      transition: var(--transition);
-      max-height: 90vh; overflow-y: auto;
-    }
-    .modal-overlay.active .modal { transform: translateY(0) scale(1); }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
-    .modal-title { font-size: 18px; font-weight: 700; }
-    .modal-close {
-      width: 32px; height: 32px; background: var(--bg-surface);
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text-secondary); font-size: 18px;
-      transition: var(--transition);
-    }
-    .modal-close:hover { background: rgba(248,113,113,0.15); border-color: var(--danger); color: var(--danger); }
+    /* ---- MODAL (override Bootstrap dark) ---- */
+    .modal-content { background: #111827; border: 1px solid var(--ci-border); border-radius: 16px; color: var(--ci-text); }
+    .modal-header { border-bottom: 1px solid var(--ci-border); }
+    .modal-footer { border-top: 1px solid var(--ci-border); }
+    .modal-title { font-weight: 700; font-size: 1rem; }
+    .btn-close { filter: invert(1) brightness(0.6); }
 
     /* ---- UPLOAD ZONE ---- */
     .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius-md);
-      padding: 32px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-bottom: 18px;
+      border: 2px dashed var(--ci-border); border-radius: 10px;
+      padding: 28px; text-align: center; cursor: pointer;
+      transition: all 0.2s;
     }
-    .upload-zone:hover, .upload-zone.drag-over {
-      border-color: var(--accent);
-      background: var(--accent-glow);
-    }
-    .upload-zone .icon { font-size: 32px; margin-bottom: 10px; }
-    .upload-zone p { font-size: 13px; color: var(--text-secondary); }
-    .upload-zone input { display: none; }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--ci-accent); background: var(--ci-accent-dim); }
+    .upload-zone .icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-zone p { font-size: 0.82rem; color: var(--ci-muted); margin: 0; }
 
-    /* ---- TOAST ---- */
-    #toast-container {
-      position: fixed; bottom: 28px; right: 28px;
-      z-index: 999; display: flex; flex-direction: column; gap: 10px;
-    }
-    .toast {
-      display: flex; align-items: center; gap: 10px;
-      padding: 13px 18px; border-radius: var(--radius-sm);
-      font-size: 13px; font-weight: 500;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-      animation: slideIn 0.3s ease;
-      border: 1px solid;
-      max-width: 340px;
-    }
-    .toast-success { background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.3); color: var(--success); }
-    .toast-error   { background: rgba(248,113,113,0.15); border-color: rgba(248,113,113,0.3); color: var(--danger);  }
-    .toast-info    { background: rgba(79,156,249,0.15);  border-color: rgba(79,156,249,0.3);  color: var(--accent);  }
+    /* ---- DETAIL GRID ---- */
+    .detail-label { font-size: 0.68rem; font-weight: 600; color: var(--ci-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .detail-value { font-size: 0.875rem; margin-bottom: 14px; }
 
-    /* ---- SEPARATOR ---- */
-    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+    /* ---- EMPTY STATE ---- */
+    .empty-state { padding: 48px; text-align: center; color: var(--ci-muted); }
+    .empty-state .icon { font-size: 2.5rem; opacity: 0.5; margin-bottom: 12px; }
+
+    /* ---- SECTION TITLE ---- */
+    .section-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; }
+    .section-title span { color: var(--ci-accent); }
+
+    /* ---- TOAST (Bootstrap custom) ---- */
+    #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 1090; }
+    .ci-toast { min-width: 280px; max-width: 360px; border-radius: 10px; font-size: 0.82rem; font-weight: 500; backdrop-filter: blur(16px); border: 1px solid; }
+    .ci-toast-success { background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.3); color: var(--ci-success); }
+    .ci-toast-error   { background: rgba(248,113,113,0.15); border-color: rgba(248,113,113,0.3); color: var(--ci-danger); }
+    .ci-toast-info    { background: rgba(79,156,249,0.15);  border-color: rgba(79,156,249,0.3);  color: var(--ci-accent); }
 
     /* ---- SPINNER ---- */
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      flex-shrink: 0;
-    }
+    .spinner-sm { width: 14px; height: 14px; border-width: 2px; }
 
     /* ---- ANIMATIONS ---- */
-    @keyframes pulse {
-      0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @keyframes slideIn {
-      from { transform: translateX(20px); opacity: 0; }
-      to   { transform: translateX(0);    opacity: 1; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: fadeIn 0.35s ease forwards; }
-
-    /* ---- DETAIL PANEL ---- */
-    .detail-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
-    .detail-value { font-size: 14px; color: var(--text-primary); margin-bottom: 16px; }
-    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
-
-    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
-    .photo-item {
-      aspect-ratio: 1; background: var(--bg-surface);
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; position: relative; overflow: hidden; cursor: pointer;
-    }
-    .photo-item img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* ---- RESPONSIVE ---- */
-    @media (max-width: 768px) {
-      header { padding: 16px 20px; }
-      main { padding: 24px 16px; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .photo-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.3s ease forwards; }
   </style>
 </head>
 
 <body>
-<div class="app-wrapper">
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <div class="logo-icon">🏗️</div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <span class="brand-icon me-2">🏗️</span>
       <div>
-        <div class="logo-text">CraneInspect</div>
-        <div class="logo-sub">Sistema de Inspeção Técnica</div>
+        <div>CraneInspect</div>
+        <div style="font-size:0.65rem; color:var(--ci-muted); font-weight:400; line-height:1">Sistema de Inspeção Técnica</div>
       </div>
-    </div>
-    <div class="header-badge">
-      <div class="badge-dot"></div>
+    </a>
+    <span class="api-badge ms-auto" id="api-status-badge">
+      <span class="dot"></span>
       <span id="api-status-text">Verificando API…</span>
-    </div>
-  </header>
+    </span>
+  </div>
+</nav>
 
-  <!-- MAIN -->
-  <main>
-    <div class="grid-2">
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="container-fluid px-4 py-4" style="position:relative;z-index:1;max-width:1280px;margin:0 auto;">
+  <div class="row g-4">
 
-      <!-- COLUNA ESQUERDA: NOVA INSPEÇÃO -->
-      <div>
-        <div class="section-header">
-          <div class="section-title">Nova <span>Vistoria</span></div>
+    <!-- COLUNA ESQUERDA: FORMULÁRIO -->
+    <div class="col-12 col-lg-5">
+      <div class="ci-card">
+        <div class="card-header">
+          <span class="section-title">Nova <span>Vistoria</span></span>
         </div>
-        <div class="card">
+        <div class="p-4">
           <form id="form-inspecao">
-            <div class="form-group">
-              <label for="crane_tag">Tag / Chassi da Grua</label>
-              <input id="crane_tag" type="text" placeholder="Ex: GRU-9092" required />
+
+            <div class="mb-3">
+              <label class="form-label" for="crane_tag">Tag / Chassi da Grua</label>
+              <input id="crane_tag" type="text" class="form-control" placeholder="Ex: GRU-9092" required />
             </div>
-            <div class="form-group">
-              <label for="inspector_name">Nome do Inspetor Responsável</label>
-              <input id="inspector_name" type="text" placeholder="Ex: Eng. Rodolfo Martins" required />
+
+            <div class="mb-3">
+              <label class="form-label" for="inspector_name">Inspetor Responsável</label>
+              <input id="inspector_name" type="text" class="form-control" placeholder="Ex: Eng. Rodolfo Martins" required />
             </div>
-            <div class="form-group">
-              <label for="status">Status Inicial</label>
-              <select id="status">
+
+            <div class="mb-3">
+              <label class="form-label" for="status">Status Inicial</label>
+              <select id="status" class="form-select">
                 <option value="PENDING">⏳ Pendente</option>
                 <option value="APPROVED">✅ Aprovado</option>
                 <option value="REJECTED">❌ Rejeitado</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="notes">Observações Técnicas</label>
-              <textarea id="notes" placeholder="Descreva as condições de inspeção, anomalias encontradas, etc."></textarea>
+
+            <div class="mb-4">
+              <label class="form-label" for="notes">Observações Técnicas</label>
+              <textarea id="notes" class="form-control" rows="3" placeholder="Descreva as condições de inspeção, anomalias encontradas…"></textarea>
             </div>
-            <button id="btn-submit" type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-              <span id="btn-submit-icon">＋</span>
-              <span id="btn-submit-label">Registrar Vistoria</span>
+
+            <button id="btn-submit" type="submit" class="btn btn-ci-primary w-100">
+              <span id="btn-content">＋ &nbsp;Registrar Vistoria</span>
             </button>
+
           </form>
         </div>
       </div>
-
-      <!-- COLUNA DIREITA: LISTA DE INSPEÇÕES -->
-      <div>
-        <div class="section-header">
-          <div class="section-title">Vistorias <span>Registradas</span></div>
-          <button id="btn-refresh" class="btn btn-ghost" onclick="loadInspections()">
-            ↻ Atualizar
-          </button>
-        </div>
-
-        <div id="inspection-list-container">
-          <div class="empty-state">
-            <div class="icon">📋</div>
-            <p>Carregando vistorias…</p>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </main>
 
+    <!-- COLUNA DIREITA: LISTA -->
+    <div class="col-12 col-lg-7">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="section-title">Vistorias <span>Registradas</span></div>
+        <button class="btn btn-ci-outline" id="btn-refresh">↻ Atualizar</button>
+      </div>
+      <div id="inspection-list-container">
+        <div class="empty-state"><div class="icon">⏳</div><p>Carregando vistorias…</p></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<!-- MODAL DE DETALHES -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" id="modal-detail">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">Detalhe da Vistoria</div>
-      <div class="modal-close" onclick="closeModal()">✕</div>
-    </div>
-
-    <div id="modal-body"></div>
-
-    <div class="divider"></div>
-
-    <!-- UPLOAD DE FOTO -->
-    <div>
-      <div class="section-title" style="font-size:15px; margin-bottom:14px;">📸 Evidências Fotográficas</div>
-      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
-        <div class="icon">☁️</div>
-        <p><strong>Clique para enviar</strong> ou arraste uma imagem</p>
-        <p style="font-size:11px; margin-top:6px; color:var(--text-muted)">JPEG · PNG · WebP — Upload direto para S3 privado</p>
-        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" onchange="handleFileSelect(event)" />
+<!-- =============================================
+     MODAL DE DETALHE DA VISTORIA
+     ============================================= -->
+<div class="modal fade" id="modalDetalhe" tabindex="-1" aria-labelledby="modalDetalheLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header px-4 pt-4">
+        <h5 class="modal-title" id="modalDetalheLabel">Detalhe da Vistoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
-      <div id="upload-status" style="font-size:13px; color:var(--text-secondary); min-height:18px;"></div>
-
-      <div id="photo-grid-container" class="photo-grid" style="margin-top:16px;"></div>
+      <div class="modal-body px-4" id="modal-body-content"></div>
+      <div class="modal-footer px-4 pb-4 flex-column align-items-stretch gap-2">
+        <div style="font-size:0.8rem; font-weight:600; color:var(--ci-muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;">📸 Evidências Fotográficas</div>
+        <div class="upload-zone" id="upload-zone">
+          <div class="icon">☁️</div>
+          <p><strong>Clique para enviar</strong> ou arraste uma imagem</p>
+          <p style="font-size:0.7rem; margin-top:4px;">JPEG · PNG · WebP — Upload direto para S3 privado</p>
+          <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
+        </div>
+        <div id="upload-status" style="font-size:0.8rem; color:var(--ci-muted); min-height:18px;"></div>
+        <div id="photo-grid" class="row g-2 mt-1"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -430,266 +270,279 @@
 <!-- TOAST CONTAINER -->
 <div id="toast-container"></div>
 
+<!-- =============================================
+     SCRIPTS — CDN APENAS (ADR-000)
+     PROIBIDO: npm, yarn, webpack, vite, react
+     ============================================= -->
+
+<!-- jQuery 3.7 via CDN -->
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous">
+</script>
+
+<!-- Bootstrap 5 JS via CDN -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmSWxE21pzRRtaGnT8fnm0TzxiR"
+  crossorigin="anonymous">
+</script>
+
 <script>
-  /* ============================================
-     CRANEINSPECT — ZERO-BUILD FRONTEND ENGINE
-     ============================================ */
+/* ============================================================
+   CRANEINSPECT — ZERO-BUILD FRONTEND ENGINE
+   Stack: jQuery 3.7 + Bootstrap 5 via CDN (ADR-000)
+   PROIBIDO: npm / yarn / webpack / vite / react / vue / angular
+   ============================================================ */
+
   const API_BASE = 'http://localhost:8000';
   let activeInspectionId = null;
+  const modalDetalhe = new bootstrap.Modal($('#modalDetalhe')[0]);
 
   /* ---- UTILITÁRIOS ---- */
 
   function showToast(message, type = 'info') {
     const icons = { success: '✓', error: '✗', info: 'ℹ' };
-    const el = document.createElement('div');
-    el.className = `toast toast-${type}`;
-    el.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
-    document.getElementById('toast-container').appendChild(el);
-    setTimeout(() => el.remove(), 3800);
+    const $toast = $(`
+      <div class="ci-toast ci-toast-${type} d-flex align-items-center gap-2 p-3 mb-2">
+        <span>${icons[type]}</span><span>${message}</span>
+      </div>
+    `).hide();
+    $('#toast-container').append($toast);
+    $toast.fadeIn(200);
+    setTimeout(() => $toast.fadeOut(300, function () { $(this).remove(); }), 3800);
   }
 
   function formatDate(iso) {
     return new Date(iso).toLocaleString('pt-BR', {
-      day:'2-digit', month:'2-digit', year:'numeric',
-      hour:'2-digit', minute:'2-digit'
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     });
   }
 
-  function setLoading(btn, loading) {
-    const icon  = document.getElementById('btn-submit-icon');
-    const label = document.getElementById('btn-submit-label');
-    btn.disabled = loading;
-    icon.innerHTML  = loading ? '<div class="spinner"></div>' : '＋';
-    label.textContent = loading ? 'Registrando…' : 'Registrar Vistoria';
+  function statusBadge(status) {
+    return `<span class="badge-${status}">${status}</span>`;
   }
 
   /* ---- STATUS DA API ---- */
 
-  async function checkApiStatus() {
-    const el = document.getElementById('api-status-text');
-    try {
-      const res = await fetch(`${API_BASE}/health`);
-      if (res.ok) {
-        const dot = document.querySelector('.badge-dot');
-        dot.style.background = 'var(--success)';
-        el.textContent = 'API Online';
-        el.style.color = 'var(--success)';
-      }
-    } catch {
-      el.textContent = 'API Offline';
-      el.style.color = 'var(--danger)';
-      document.querySelector('.badge-dot').style.background = 'var(--danger)';
-    }
+  function checkApiStatus() {
+    $.get(`${API_BASE}/health`)
+      .done(function () {
+        $('#api-status-text').text('API Online');
+        $('#api-status-badge').css('color', 'var(--ci-success)');
+        $('#api-status-badge .dot').css('background', 'var(--ci-success)');
+      })
+      .fail(function () {
+        $('#api-status-text').text('API Offline');
+        $('#api-status-badge').css({ color: 'var(--ci-danger)', borderColor: 'rgba(248,113,113,0.3)' });
+        $('#api-status-badge .dot').css('background', 'var(--ci-danger)');
+      });
   }
 
-  /* ---- CARREGAR INSPEÇÕES ---- */
+  /* ---- CARREGAR LISTA DE INSPEÇÕES ---- */
 
-  async function loadInspections() {
-    const container = document.getElementById('inspection-list-container');
-    container.innerHTML = `<div class="empty-state"><div class="icon" style="font-size:26px;">⏳</div><p>Carregando…</p></div>`;
+  function loadInspections() {
+    $('#inspection-list-container').html(`
+      <div class="empty-state"><div class="icon">⏳</div><p>Carregando…</p></div>
+    `);
 
-    try {
-      const res  = await fetch(`${API_BASE}/inspections`);
-      const data = await res.json();
+    $.getJSON(`${API_BASE}/inspections`)
+      .done(function (data) {
+        if (!data.length) {
+          $('#inspection-list-container').html(`
+            <div class="empty-state">
+              <div class="icon">🏗️</div>
+              <p>Nenhuma vistoria registrada.<br>Crie a primeira no formulário ao lado.</p>
+            </div>`);
+          return;
+        }
 
-      if (!data.length) {
-        container.innerHTML = `
+        let html = '';
+        $.each(data.reverse(), function (_, ins) {
+          html += `
+            <div class="inspection-item fade-up" data-id="${ins.id}" data-obj='${JSON.stringify(ins).replace(/'/g, "&#39;")}'>
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="inspection-tag">🏗️ <span class="id-badge">#${ins.id}</span> — ${ins.crane_tag}</div>
+                  <div class="inspection-meta">
+                    👷 ${ins.inspector_name} &nbsp;·&nbsp;
+                    📅 ${formatDate(ins.inspection_date)} &nbsp;·&nbsp;
+                    📸 ${ins.photos.length} foto(s)
+                  </div>
+                </div>
+                ${statusBadge(ins.status)}
+              </div>
+            </div>`;
+        });
+
+        $('#inspection-list-container').html(html);
+
+        /* Bind click via jQuery event delegation */
+        $('#inspection-list-container').on('click', '.inspection-item', function () {
+          const ins = JSON.parse($(this).attr('data-obj').replace(/&#39;/g, "'"));
+          openModal(ins);
+        });
+      })
+      .fail(function (jqXHR) {
+        $('#inspection-list-container').html(`
           <div class="empty-state">
-            <div class="icon">🏗️</div>
-            <p>Nenhuma vistoria registrada ainda.<br>Crie a primeira à esquerda.</p>
-          </div>`;
-        return;
-      }
-
-      container.innerHTML = `<div class="inspection-list" id="inspection-list"></div>`;
-      const list = document.getElementById('inspection-list');
-
-      data.reverse().forEach(ins => {
-        const card = document.createElement('div');
-        card.className = 'inspection-card fade-in';
-        card.onclick   = () => openModal(ins);
-        card.innerHTML = `
-          <div class="inspection-info">
-            <div class="inspection-tag">🏗️ <strong>#${ins.id}</strong> — ${ins.crane_tag}</div>
-            <div class="inspection-meta">
-              <span>👷 ${ins.inspector_name}</span>
-              <span>📅 ${formatDate(ins.inspection_date)}</span>
-              <span>📸 ${ins.photos.length} foto(s)</span>
-            </div>
-          </div>
-          <span class="status-badge status-${ins.status}">${ins.status}</span>
-        `;
-        list.appendChild(card);
+            <div class="icon">⚠️</div>
+            <p>Erro ao conectar à API.<br><small>${jqXHR.statusText || 'Network Error'}</small></p>
+          </div>`);
       });
-
-    } catch (e) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="icon">⚠️</div>
-          <p>Erro ao conectar à API.<br><small style="color:var(--text-muted)">${e.message}</small></p>
-        </div>`;
-    }
   }
 
   /* ---- CRIAR INSPEÇÃO ---- */
 
-  document.getElementById('form-inspecao').addEventListener('submit', async (e) => {
+  $('#form-inspecao').on('submit', function (e) {
     e.preventDefault();
-    const btn = document.getElementById('btn-submit');
-    setLoading(btn, true);
 
     const payload = {
-      crane_tag:      document.getElementById('crane_tag').value.trim(),
-      inspector_name: document.getElementById('inspector_name').value.trim(),
-      status:         document.getElementById('status').value,
-      notes:          document.getElementById('notes').value.trim() || null,
+      crane_tag:      $('#crane_tag').val().trim(),
+      inspector_name: $('#inspector_name').val().trim(),
+      status:         $('#status').val(),
+      notes:          $('#notes').val().trim() || null,
     };
 
-    try {
-      const res = await fetch(`${API_BASE}/inspections`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
-      });
+    $('#btn-submit').prop('disabled', true);
+    $('#btn-content').html('<span class="spinner-border spinner-sm me-2" role="status"></span>Registrando…');
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      showToast(`Vistoria da grua "${payload.crane_tag}" registrada com sucesso!`, 'success');
-      e.target.reset();
+    $.ajax({
+      url:         `${API_BASE}/inspections`,
+      method:      'POST',
+      contentType: 'application/json',
+      data:        JSON.stringify(payload),
+    })
+    .done(function () {
+      showToast(`Vistoria "${payload.crane_tag}" registrada com sucesso!`, 'success');
+      $('#form-inspecao')[0].reset();
       loadInspections();
-
-    } catch (err) {
-      showToast(`Falha ao registrar: ${err.message}`, 'error');
-    } finally {
-      setLoading(btn, false);
-    }
+    })
+    .fail(function (jqXHR) {
+      showToast(`Falha ao registrar: HTTP ${jqXHR.status}`, 'error');
+    })
+    .always(function () {
+      $('#btn-submit').prop('disabled', false);
+      $('#btn-content').html('＋ &nbsp;Registrar Vistoria');
+    });
   });
 
-  /* ---- MODAL DE DETALHE ---- */
+  /* ---- ABRIR MODAL ---- */
 
   function openModal(ins) {
     activeInspectionId = ins.id;
-    document.getElementById('modal-title').textContent = `#${ins.id} — ${ins.crane_tag}`;
-    document.getElementById('upload-status').textContent = '';
-    document.getElementById('photo-grid-container').innerHTML = '';
+    $('#modalDetalheLabel').text(`#${ins.id} — ${ins.crane_tag}`);
+    $('#upload-status').text('');
+    $('#photo-grid').empty();
 
-    document.getElementById('modal-body').innerHTML = `
-      <div class="detail-grid">
-        <div>
+    let body = `
+      <div class="row">
+        <div class="col-6">
           <div class="detail-label">Tag / Chassi</div>
           <div class="detail-value">${ins.crane_tag}</div>
         </div>
-        <div>
+        <div class="col-6">
           <div class="detail-label">Status</div>
-          <div class="detail-value"><span class="status-badge status-${ins.status}">${ins.status}</span></div>
+          <div class="detail-value">${statusBadge(ins.status)}</div>
         </div>
-        <div>
-          <div class="detail-label">Inspetor Responsável</div>
+        <div class="col-6">
+          <div class="detail-label">Inspetor</div>
           <div class="detail-value">${ins.inspector_name}</div>
         </div>
-        <div>
+        <div class="col-6">
           <div class="detail-label">Data da Vistoria</div>
           <div class="detail-value">${formatDate(ins.inspection_date)}</div>
         </div>
-        ${ins.notes ? `<div style="grid-column: span 2;">
-          <div class="detail-label">Observações</div>
-          <div class="detail-value" style="line-height:1.6">${ins.notes}</div>
-        </div>` : ''}
-      </div>
-    `;
+        ${ins.notes ? `<div class="col-12"><div class="detail-label">Observações</div><div class="detail-value" style="line-height:1.6">${ins.notes}</div></div>` : ''}
+      </div>`;
 
-    /* Carrega fotos (se existirem) */
-    if (ins.photos?.length) {
-      const grid = document.getElementById('photo-grid-container');
-      ins.photos.forEach(photo => {
-        const item = document.createElement('div');
-        item.className = 'photo-item';
-        item.innerHTML = `<span style="font-size:26px">📷</span><div style="font-size:9px;position:absolute;bottom:4px;left:0;right:0;text-align:center;color:var(--text-muted)">ID: ${photo.id}</div>`;
-        item.title = photo.s3_object_key;
-        grid.appendChild(item);
+    $('#modal-body-content').html(body);
+
+    /* Popula grid de fotos */
+    if (ins.photos && ins.photos.length) {
+      $.each(ins.photos, function (_, photo) {
+        $('#photo-grid').append(`
+          <div class="col-4">
+            <div class="ci-card d-flex align-items-center justify-content-center" style="aspect-ratio:1;font-size:1.8rem;cursor:default;" title="${photo.s3_object_key}">
+              📷<div style="font-size:0.6rem;position:absolute;bottom:4px;color:var(--ci-muted)">ID: ${photo.id}</div>
+            </div>
+          </div>`);
       });
     }
 
-    document.getElementById('modal-overlay').classList.add('active');
+    modalDetalhe.show();
   }
-
-  function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('active');
-    activeInspectionId = null;
-  }
-
-  /* Fechar modal clicando fora */
-  document.getElementById('modal-overlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-  });
 
   /* ---- UPLOAD DE FOTO ---- */
 
-  async function handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (!file || !activeInspectionId) return;
+  $('#upload-zone').on('click', function () { $('#file-input').trigger('click'); });
 
-    const statusEl = document.getElementById('upload-status');
-    statusEl.innerHTML = `<span style="display:flex;align-items:center;gap:8px;color:var(--accent)"><div class="spinner" style="border-top-color:var(--accent)"></div> Enviando "${file.name}" para S3…</span>`;
+  $('#file-input').on('change', function () {
+    const file = this.files[0];
+    if (!file || !activeInspectionId) return;
+    uploadPhoto(file);
+    this.value = '';
+  });
+
+  /* Drag & Drop */
+  $('#upload-zone')
+    .on('dragover', function (e) { e.preventDefault(); $(this).addClass('drag-over'); })
+    .on('dragleave', function ()  { $(this).removeClass('drag-over'); })
+    .on('drop', function (e) {
+      e.preventDefault();
+      $(this).removeClass('drag-over');
+      const file = e.originalEvent.dataTransfer.files[0];
+      if (file) uploadPhoto(file);
+    });
+
+  function uploadPhoto(file) {
+    const $status = $('#upload-status');
+    $status.html('<span class="spinner-border spinner-sm me-2" role="status"></span> Enviando para S3…');
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('description', file.name);
 
-    try {
-      const res = await fetch(`${API_BASE}/inspections/${activeInspectionId}/photos`, {
-        method: 'POST',
-        body:   formData,
-      });
-
-      if (res.status === 500) {
-        // S3 não configurado ainda — comportamento esperado sem bucket provisionado
-        const body = await res.json();
-        showToast(`S3 não configurado (esperado): ${body.detail}`, 'info');
-        statusEl.textContent = '⚠️ S3 ainda não provisionado (aguardando Terraform)';
-        return;
+    $.ajax({
+      url:         `${API_BASE}/inspections/${activeInspectionId}/photos`,
+      method:      'POST',
+      data:        formData,
+      processData: false,
+      contentType: false,
+    })
+    .done(function (photo) {
+      showToast('Foto registrada com sucesso!', 'success');
+      $status.text(`✓ Foto ID #${photo.id} registrada.`);
+      $('#photo-grid').append(`
+        <div class="col-4 fade-up">
+          <div class="ci-card d-flex align-items-center justify-content-center" style="aspect-ratio:1;font-size:1.8rem;" title="${photo.s3_object_key}">
+            📷<div style="font-size:0.6rem;position:absolute;bottom:4px;color:var(--ci-muted)">ID: ${photo.id}</div>
+          </div>
+        </div>`);
+    })
+    .fail(function (jqXHR) {
+      const detail = jqXHR.responseJSON ? jqXHR.responseJSON.detail : `HTTP ${jqXHR.status}`;
+      if (jqXHR.status === 500) {
+        /* S3 não configurado — comportamento esperado sem bucket */
+        showToast('S3 não configurado (aguardando Terraform)', 'info');
+        $status.html('⚠️ S3 ainda não provisionado via Terraform.');
+      } else {
+        showToast(`Falha no upload: ${detail}`, 'error');
+        $status.text(`✗ ${detail}`);
       }
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const photo = await res.json();
-
-      showToast('Foto enviada e registrada com sucesso!', 'success');
-      statusEl.textContent = `✓ Foto ID #${photo.id} registrada.`;
-
-      /* Adiciona item no grid sem reload completo */
-      const grid = document.getElementById('photo-grid-container');
-      const item = document.createElement('div');
-      item.className = 'photo-item fade-in';
-      item.innerHTML = `<span style="font-size:26px">📷</span><div style="font-size:9px;position:absolute;bottom:4px;left:0;right:0;text-align:center;color:var(--text-muted)">ID: ${photo.id}</div>`;
-      grid.appendChild(item);
-
-    } catch (err) {
-      showToast(`Falha no upload: ${err.message}`, 'error');
-      statusEl.textContent = `✗ Erro: ${err.message}`;
-    } finally {
-      event.target.value = '';
-    }
+    });
   }
 
-  /* Drag & Drop */
-  const zone = document.getElementById('upload-zone');
-  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault(); zone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      const input = document.getElementById('file-input');
-      input.files = dt.files;
-      handleFileSelect({ target: input });
-    }
+  /* ---- BOOTSTRAP da Aplicação (jQuery Document Ready) ---- */
+
+  $(function () {
+    checkApiStatus();
+    loadInspections();
+    $('#btn-refresh').on('click', loadInspections);
   });
 
-  /* ---- BOOTSTRAP ---- */
-  checkApiStatus();
-  loadInspections();
 </script>
 </body>
 </html>

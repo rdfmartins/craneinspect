@@ -9,7 +9,20 @@ Este documento serve como o **Plano de Execução e Registro Arquitetural** do p
 ### ADR-000: Arquitetura Base e Stack Tecnológico (The Foundation)
 - **Data:** 24/03/2026
 - **Status:** Aprovado
-- **Decisão:** O core tecnológico do projeto CraneInspect será composto por: **Infraestrutura via Terraform**, **Computação EC2 (Spot)**, **Armazenamento S3 via Presigned URLs**, **Backend em Python (FastAPI)**, e **Frontend 'Zero-Build' (HTML+JS nativo)**.
+- **Decisão:** O core tecnológico do projeto CraneInspect será composto por: **Infraestrutura via Terraform**, **Computação EC2 (Spot)**, **Armazenamento S3 via Presigned URLs**, **Backend em Python (FastAPI)**, e **Frontend 'Zero-Build' (HTML5 + jQuery + Bootstrap via CDN)**.
+- **O 'Porquê' (The Pain):** Soluções corporativas comuns (K8s, SPAs complexos como React) adicionam uma camada de sobrecarga cognitiva e custos insustentáveis para um MVP voltado a um nicho restrito (3 usuários).
+- **Valor Agregado (A Racionalidade do Arquiteto):**
+  - **Terraform:** Imutabilidade. Protege o portfólio contra "ClickOps". O projeto inteiro pode ser reconstruído na AWS em menos de 5 minutos, servindo como uma prova tangível de skill de Cloud Engineering.
+  - **AWS EC2 (Spot) & S3:** Foco maníaco em FinOps (custos reduzidos a cêntimos) + segurança isolada via SSM. O S3 retira a carga de persistência da EC2 (Coração da arquitetura Data-Driven).
+  - **Python (FastAPI) & Boto3:** O padrão da indústria para Cloud Native. Extremamente rápido, assíncrono e domina completamente o SDK da AWS (Boto3) para a geração de tokens seguros do S3.
+  - **Frontend Zero-Build (jQuery + Bootstrap CDN):** Menos ferramentas para quebrar. Simplicidade bruta que foca o holofote na **Infraestrutura Cloud e Segurança**. jQuery é o padrão de facto em sistemas corporativos de campo, e Bootstrap garante consistência visual sem custo cognitivo.
+- **⛔ Regras Proibidas no Frontend (Não Negociável):**
+  - **PROIBIDO:** `npm install`, `yarn`, `pnpm` ou qualquer gerenciador de pacotes Node.
+  - **PROIBIDO:** Ferramentas de build como Webpack, Vite, Parcel ou Babel.
+  - **PROIBIDO:** Frameworks SPA como React, Vue ou Angular.
+  - **PERMITIDO:** jQuery e Bootstrap **exclusivamente via CDN** (`<script src="...cdn...">`).
+  - **PERMITIDO:** JavaScript puro (ES6+) como complemento ao jQuery onde mais legível.
+
 - **O 'Porquê' (The Pain):** Soluções corporativas comuns (K8s, SPAs complexos como React) adicionam uma camada de sobrecarga cognitiva e custos insustentáveis para um MVP voltado a um nicho restrito (3 usuários).
 - **Valor Agregado (A Racionalidade do Arquiteto):**
   - **Terraform:** Imutabilidade. Protege o portfólio contra "ClickOps". O projeto inteiro pode ser reconstruído na AWS em menos de 5 minutos, servindo como uma prova tangível de skill de Cloud Engineering.
