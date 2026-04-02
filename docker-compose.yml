@@ -26,7 +26,6 @@ services:
       db:
         condition: service_healthy
 
-
   db:
     image: postgres:15-alpine
     container_name: craneinspect_db
@@ -43,6 +42,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  frontend:
+    image: nginx:alpine
+    container_name: craneinspect_frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
